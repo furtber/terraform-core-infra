@@ -5,37 +5,26 @@ node {
 		echo "start build"
 		env.PATH = "/usr/local/bin/:${env.PATH}"
 		env.TF_LOG = "INFO" //TRACE, DEBUG, INFO, WARN or ERROR 
-		env.AWS_DEFAULT_REGION = "eu-central-1"
-		
-		//set AWS Credentials - credentials need to be in Jenkins credentials using a naming schema
-		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "demo-tenant",
-				      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-			env.AWS_ACCESS_KEY_ID = "$USERNAME"
-			env.AWS_SECRET_ACCESS_KEY = "$PASSWORD"
-		}
+		env.AWS_DEFAULT_REGION = "eu-west-1"
 		
 		//Terraform version print
 		sh "terraform --version -no-color"
 	}
 	stage("prepare") {
 		
-			//Checkout current project .. other can be checked out using git
-			checkout scm
+		//Checkout current project .. other can be checked out using git
+		checkout scm
 		
-			//setup local environment with terraform init and set remote config
-			// terraform init is safe to run multiple times
+		//setup local environment with terraform init and set remote config
+		// terraform init is safe to run multiple times
 			
-			//Attention: These Credentials are different from the ones used to deploy
-			// this set is used for the state only!
-			withCredentials([usernamePassword(credentialsId: 's3remotestate', usernameVariable : 'REMOTESTATE_USERNAME', passwordVariable : 'REMOTESTATE_PASSWORD')]) {
-				sh """terraform init -no-color -backend=true \
-				-backend-config "bucket=terraform-state-demotenant" \
-				-backend-config "key=${env.JOB_NAME}" \
-				-backend-config "region=eu-central-1" \
-				-backend-config "access_key=$REMOTESTATE_USERNAME" \
-				-backend-config "secret_key=$REMOTESTATE_PASSWORD" \
-				"""
-			}		
+		//Attention: These Credentials are different from the ones used to deploy
+		// this set is used for the state only!
+		sh """terraform init -no-color -backend=true \
+			-backend-config "bucket=PLACEHOLDER" \
+			-backend-config "key=${env.JOB_NAME}" \
+			-backend-config "region=eu-west-1" \
+		"""
 	}
 	stage("plan") {
 		//Run terraform plan to see what will change
