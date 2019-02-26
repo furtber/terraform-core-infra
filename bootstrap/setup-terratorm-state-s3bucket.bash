@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# This script is used to set up resources for terraform in new AWS account.
+# S3 bucket for storing state and DynamoDB table for locking are created.
+#
+
+if [[ -z "$APP_ENVIRONMENT" ]]; then
+  echo "Error: Please set TF_VAR_APP_ENVIRONMENT variable"
+  exit 1
+fi
+
+S3_BUCKET="$APP_ENVIRONMENT-terraform-tfstate-$AWS_ACCOUNT_ID"
+
+echo "Creating S3 bucket: $S3_BUCKET"
+aws s3api create-bucket --bucket $S3_BUCKET --create-bucket-configuration LocationConstraint="eu-west-1"
+
+echo "Waiting until the bucket is ready..."
+aws s3api wait bucket-exists --bucket $TF_VAR_S3_BUCKET
+
+echo "Enabling versioning for the bucket"
+aws s3api put-bucket-versioning --bucket $TF_VAR_S3_BUCKET --versioning-configuration Status=Enabled
+
+echo "Putting tags to bucket"
+aws s3api put-bucket-tagging --bucket $TF_VAR_S3_BUCKET --tagging "TagSet=[{Key=environment,Value=$TF_VAR_APP_ENVIRONMENT},{Key=cost_center,Value=123},{Key=service,Value=testing},{Key=business_unit,Value=testing},{Key=role,Value=Terraform}]"
+
+echo "Put S3 bucket policy"
+TIMESTAMP=$(date +%Y%m%d%H%M)
+POLICY=$(cat<<EOF
+{
+    "Version": "2012-10-17",
+    "Id": "s3-enforce-encryption-$TIMESTAMP",
+    "Statement": [{
+        "Sid": "DenyIncorrectEncryptionHeader-$TIMESTAMP",
+        "Effect": "Deny",
+        "Principal": "*",
+        "Action": "s3:PutObject",
+        "Resource": "arn:aws:s3:::$S3_BUCKET/*",
+        "Condition": {
+            "StringNotEquals": {
+                "s3:x-amz-server-side-encryption": "AES256"
+            }
+        }
+    }, {
+        "Sid": "DenyUnEncryptedObjectUploads-$TIMESTAMP",
+        "Effect": "Deny",
+        "Principal": "*",
+        "Action": "s3:PutObject",
+        "Resource": "arn:aws:s3:::$S3_BUCKET/*",
+        "Condition": {
+            "Null": {
+                "s3:x-amz-server-side-encryption": "true"
+            }
+        }
+    }]
+}
+EOF
+)
+aws s3api put-bucket-policy --bucket $TF_VAR_S3_BUCKET --policy "$POLICY"
+
+echo "Creating prefix: core-infra"
+aws s3api put-object --bucket $TF_VAR_S3_BUCKET --key core-infra/ --server-side-encryption AES256
+
