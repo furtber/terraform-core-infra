@@ -28,6 +28,8 @@ node {
 			-backend-config "key=core-infra/terraform.tfstate" \
 			-backend-config "region=eu-west-1" \
                         -backend-config "encrypt=1" \
+                        -backend-config "acl=private" \
+                        -backend-config "shared_credentials_file=/var/lib/jenkins/.aws/config"
                         -backend-config "profile=staging"
 		   """
 	}
