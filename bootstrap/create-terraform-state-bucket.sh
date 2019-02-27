@@ -59,6 +59,6 @@ EOF
 )
 aws s3api put-bucket-policy --bucket $S3_BUCKET --policy "$POLICY"
 
-echo "Creating prefix: core-infra"
-aws s3api put-object --bucket $S3_BUCKET --key core-infra/ --server-side-encryption AES256
+echo "Creating prefix: workspace"
+aws s3api put-object --bucket $S3_BUCKET --key workspace/ --server-side-encryption AES256
 
