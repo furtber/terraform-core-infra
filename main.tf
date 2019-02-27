@@ -1,21 +1,3 @@
-provider "aws" {
-  region = "eu-central-1"
-  assume_role {
-    role_arn     = "arn:aws:iam::${var.account_id}:role/Jenkins"
-    session_name = "SESSION_NAME"
-    external_id  = "EXTERNAL_ID"
-  }
-}
-
-terraform {
-	backend "s3" {
-		## Config not used here - parameters are provided as key-value pairs in init
-		## during terraform init
-		# bucket = "s3-terraform-state"
-		# key = "my-project"
-		# region = "eu-central-1"
-	}
-}
 
 ##################################################################
 # Example: Show how to read data from AWS
