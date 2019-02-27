@@ -24,6 +24,7 @@ node {
                         -backend-config "workspace_key_prefix=workspace" \
 			-backend-config "key=core-infra.tfstate" \
 			-backend-config "region=eu-west-1" \
+                        -backend-config "dynamodb_table=TerraformStateLock" \
                         -backend-config "encrypt=1" \
                         -backend-config "acl=private" \
 		   """
