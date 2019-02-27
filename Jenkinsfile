@@ -2,14 +2,10 @@ node {
 	
 	stage("startup") {
 		//Remove later.... sho that Jenkinsfile works
-		echo "start build"
+		echo "Starting terraform pipeline..."
 		env.PATH = "/usr/local/bin/:${env.PATH}"
 		env.TF_LOG = "INFO" //TRACE, DEBUG, INFO, WARN or ERROR 
 
-                //Select AWS profile which has been configured in /var/lib/jenkins/.aws/config
-                sh "echo Provisioning to environment: $ENVIRONMENT"
-                env.AWS_DEFAULT_PROFILE = "$ENVIRONMENT"
-		
 		//Terraform version print
 		sh "terraform --version -no-color"
 	}
@@ -24,14 +20,16 @@ node {
 		//Attention: These Credentials are different from the ones used to deploy
 		// this set is used for the state only!
 		sh """terraform init -no-color -backend=true \
-			-backend-config "bucket=stage-terraform-tfstate-200562504897" \
-			-backend-config "key=core-infra/terraform.tfstate" \
+			-backend-config "bucket=terraform-tfstate-825265825471" \
+                        -backend-config "workspace_key_prefix=workspace" \
+			-backend-config "key=core-infra.tfstate" \
 			-backend-config "region=eu-west-1" \
                         -backend-config "encrypt=1" \
                         -backend-config "acl=private" \
-                        -backend-config "shared_credentials_file=/var/lib/jenkins/.aws/config"
-                        -backend-config "profile=staging"
 		   """
+
+                //Select correct environment and corresponding AWS account
+                sh "terraform workspace new $ENVIRONMENT"
 	}
 	stage("plan") {
 		//Run terraform plan to see what will change
