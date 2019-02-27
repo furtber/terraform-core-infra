@@ -14,8 +14,8 @@ node {
 		//Checkout current project .. other can be checked out using git
 		checkout scm
 		
-		//setup local environment with terraform init and set remote config
-		// terraform init is safe to run multiple times
+		//Remove .terraform folder so that we start fresh
+                sh "rm -rf ./.terraform"
 			
 		//Attention: These Credentials are different from the ones used to deploy
 		// this set is used for the state only!
