@@ -19,15 +19,7 @@ node {
 			
 		//Attention: These Credentials are different from the ones used to deploy
 		// this set is used for the state only!
-		sh """terraform init -no-color -backend=true \
-			-backend-config "bucket=terraform-tfstate-825265825471" \
-                        -backend-config "workspace_key_prefix=workspace" \
-			-backend-config "key=core-infra.tfstate" \
-			-backend-config "region=eu-west-1" \
-                        -backend-config "dynamodb_table=TerraformStateLock" \
-                        -backend-config "encrypt=1" \
-                        -backend-config "acl=private" \
-		   """
+		sh "terraform init -no-color -backend=true"
 
                 //Select correct environment and corresponding AWS account
                 sh "terraform workspace new $ENVIRONMENT"
