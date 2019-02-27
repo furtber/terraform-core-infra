@@ -31,7 +31,7 @@ node {
 		sh "terraform plan -no-color -out=plan.out"
 	}
 	stage("apply") {
-		input 'Do you want to apply the Terraform plan?'
+		input 'Plese review terraform plan and then decide if you want to apply it?'
 		//Run terraform plan to see what will change
 		sh "terraform apply plan.out -no-color"
 		
