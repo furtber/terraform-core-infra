@@ -7,7 +7,7 @@ node {
 		env.TF_LOG = "INFO" //TRACE, DEBUG, INFO, WARN or ERROR 
 
                 //Select AWS profile which has been configured in /var/lib/jenkins/.aws/config
-                sh "Provisioning to environment: $ENVIRONMENT"
+                sh "echo Provisioning to environment: $ENVIRONMENT"
                 env.AWS_DEFAULT_PROFILE = "$ENVIRONMENT"
 		
 		//Terraform version print
