@@ -4,7 +4,7 @@
 # that being corrupted by simultaneous terraform applys
 
 if [[ -z "$AWS_DEFAULT_PROFILE" ]]; then
-  echo "Error: Please set AWS_DEFAULT_PROFILE variable to select which AWS account to set up."
+  echo "Error: Please set AWS_DEFAULT_PROFILE variable to the centralized account where Jenkins is located."
   exit 1
 fi
 
