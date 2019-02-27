@@ -5,18 +5,13 @@
 #
 
 if [[ -z "$AWS_DEFAULT_PROFILE" ]]; then
-  echo "Error: Please set AWS_DEFAULT_PROFILE variable to select which AWS account to set up."
-  exit 1
-fi
-
-if [[ -z "$ENVIRONMENT" ]]; then
-  echo "Error: Please set ENVIRONMENT variable to have that included in the S3 bucket name. E.g. dev, stage, prod in lowercase."
+  echo "Error: Please set AWS_DEFAULT_PROFILE variable to the centralized account where Jenkins is located."
   exit 1
 fi
 
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
 
-S3_BUCKET="$ENVIRONMENT-terraform-tfstate-$AWS_ACCOUNT_ID"
+S3_BUCKET="terraform-tfstate-$AWS_ACCOUNT_ID"
 
 echo "Creating S3 bucket: $S3_BUCKET"
 aws s3api create-bucket --bucket $S3_BUCKET --create-bucket-configuration LocationConstraint="eu-west-1"
