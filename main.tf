@@ -13,6 +13,8 @@ module "vpc" {
 
     tags = {
         Terraform = "true"
-        Environment = "${var.ENVIRONMENT}"
+        environment = "${var.ENVIRONMENT}"
+        cost_center = "${var.tag_cost_center}"
+        business_unit = "${var.tag_business_unit}"
     }
 }
