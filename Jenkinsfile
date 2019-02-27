@@ -25,8 +25,10 @@ node {
 		// this set is used for the state only!
 		sh """terraform init -no-color -backend=true \
 			-backend-config "bucket=stage-terraform-tfstate-200562504897" \
-			-backend-config "key=core-infra" \
+			-backend-config "key=core-infra/terraform.tfstate" \
 			-backend-config "region=eu-west-1" \
+                        -backend-config "encrypt=1" \
+                        -backend-config "profile=staging"
 		   """
 	}
 	stage("plan") {
