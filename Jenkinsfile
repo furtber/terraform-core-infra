@@ -4,7 +4,7 @@ node {
 		//Remove later.... sho that Jenkinsfile works
 		echo "Starting terraform pipeline..."
 		env.PATH = "/usr/local/bin/:${env.PATH}"
-		env.TF_LOG = "ERROR" //TRACE, DEBUG, INFO, WARN or ERROR
+		//env.TF_LOG = "ERROR" //TRACE, DEBUG, INFO, WARN or ERROR
 
                 //Make selected environment available inside terraform with var.ENVIRONMENT 
                 env.TF_VAR_ENVIRONMENT = "$ENVIRONMENT"
