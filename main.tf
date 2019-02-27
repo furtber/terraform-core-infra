@@ -47,35 +47,3 @@ resource "aws_instance" "frontend" {
    }
 }
 
-resource "aws_s3_bucket" "workshop" {
-  bucket = "workshop"
-
-  tags = {
-    Name        = "Workshop"
-    Environment = "Dev"
-  }
-}
-
-resource "aws_s3_bucket_policy" "workshop" {
-  bucket = "${aws_s3_bucket.workshop.id}"
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "workshop_policy",
-  "Statement": [
-    {
-      "Sid": "IPAllow",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "s3:*",
-      "Resource": "arn:aws:s3:::workshop/*",
-      "Condition": {
-         "IpAddress": {"aws:SourceIp": "92.206.55.233/32"}
-      }
-    }
-  ]
-}
-POLICY
-}
-
