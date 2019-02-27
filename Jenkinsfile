@@ -5,7 +5,9 @@ node {
 		echo "start build"
 		env.PATH = "/usr/local/bin/:${env.PATH}"
 		env.TF_LOG = "INFO" //TRACE, DEBUG, INFO, WARN or ERROR 
-		env.AWS_DEFAULT_REGION = "eu-west-1"
+
+                //Select AWS profile which has been configured in /var/lib/jenkins/.aws/config
+                env.AWS_DEFAULT_PROFILE = ${env.ENVIRONMENT}
 		
 		//Terraform version print
 		sh "terraform --version -no-color"
