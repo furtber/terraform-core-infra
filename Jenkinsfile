@@ -36,7 +36,7 @@ node {
 	stage("apply") {
 		input 'Plese review terraform plan and then decide if you want to apply it?'
 		//Run terraform plan to see what will change
-		sh "terraform apply -var-file=${ENVIRONMENT}.tfvars -no-color plan.out"
+		sh "terraform apply -no-color plan.out"
 		
 		//Write result somewhere
 	}
