@@ -24,10 +24,10 @@ node {
 		//Attention: These Credentials are different from the ones used to deploy
 		// this set is used for the state only!
 		sh """terraform init -no-color -backend=true \
-			-backend-config "bucket=PLACEHOLDER" \
-			-backend-config "key=${env.JOB_NAME}" \
+			-backend-config "bucket=stage-terraform-tfstate-200562504897" \
+			-backend-config "key=core-infra" \
 			-backend-config "region=eu-west-1" \
-		"""
+		   """
 	}
 	stage("plan") {
 		//Run terraform plan to see what will change
