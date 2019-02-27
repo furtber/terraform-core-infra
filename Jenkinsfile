@@ -14,7 +14,7 @@ node {
 		//Checkout current project .. other can be checked out using git
 		checkout scm
 		
-		//Remove .terraform folder so that we start fresh
+		//Remove .terraform folder in case Jenkins is not configured to clear workspace
                 sh "rm -rf ./.terraform"
 			
 		//Attention: These Credentials are different from the ones used to deploy
@@ -22,7 +22,7 @@ node {
 		sh "terraform init -no-color -backend=true"
 
                 //Select correct environment and corresponding AWS account
-                sh "terraform workspace new $ENVIRONMENT"
+                sh "terraform workspace new $ENVIRONMENT || terraform workspace select $ENVIRONMENT"
 	}
 	stage("plan") {
 		//Run terraform plan to see what will change
