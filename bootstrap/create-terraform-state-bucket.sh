@@ -10,7 +10,7 @@ if [[ -z "$AWS_DEFAULT_PROFILE" ]]; then
 fi
 
 if [[ -z "$ENVIRONMENT" ]]; then
-  echo "Error: Please set ENVIRONMENT variable to have that included in the S3 bucket name. E.g. DEV, STAGE, PROD"
+  echo "Error: Please set ENVIRONMENT variable to have that included in the S3 bucket name. E.g. dev, stage, prod in lowercase."
   exit 1
 fi
 
