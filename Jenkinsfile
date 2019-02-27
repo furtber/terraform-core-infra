@@ -7,7 +7,7 @@ node {
 		env.TF_LOG = "ERROR" //TRACE, DEBUG, INFO, WARN or ERROR
 
                 //Make selected environment available inside terraform with var.ENVIRONMENT 
-                env.TF_VAR_ENVIRONMENT = $ENVIRONMENT
+                env.TF_VAR_ENVIRONMENT = "$ENVIRONMENT"
 
 		//Terraform version print
 		sh "terraform --version -no-color"
