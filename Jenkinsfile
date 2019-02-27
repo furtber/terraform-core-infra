@@ -4,7 +4,7 @@ node {
 		//Remove later.... sho that Jenkinsfile works
 		echo "Starting terraform pipeline..."
 		env.PATH = "/usr/local/bin/:${env.PATH}"
-		env.TF_LOG = "INFO" //TRACE, DEBUG, INFO, WARN or ERROR 
+		env.TF_LOG = "WARN" //TRACE, DEBUG, INFO, WARN or ERROR 
 
 		//Terraform version print
 		sh "terraform --version -no-color"
