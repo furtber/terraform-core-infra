@@ -10,7 +10,7 @@ provider "aws" {
   # environment or the global credentials file.
 
   assume_role = "${var.workspace_iam_roles[terraform.workspace]}"
-  region = eu-west-1
+  region = "eu-west-1"
 }
 
 
