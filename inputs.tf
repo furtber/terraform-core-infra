@@ -13,14 +13,14 @@ variable "vpc_cidr" {
   description = "VPC address range in CIDR format."
 }
 variable "azs" {
-  type = list
+  type = "list"
   description = "Availability zones that are used."
 }
 variable "public_subnets" {
-  type = list
+  type = "list"
   description = "List of public subnets."
 }
 variable "private_subnets" {
-  type = list
+  type = "list"
   description = "List of private subnets."
 }
