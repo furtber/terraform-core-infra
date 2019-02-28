@@ -5,9 +5,9 @@ module "vpc" {
     name = "${var.vpc_name}"
     cidr = "${var.vpc_cidr}"
 
-    azs = "${split(",",var.azs)}"
-    private_subnets = "${split(",",var.private_subnets)}"
-    public_subnets = "${split(",",var.public_subnets)}"
+    azs = "${var.azs}"
+    private_subnets = "${var.private_subnets}"
+    public_subnets = "${var.public_subnets}"
 
     enable_nat_gateway = true
 
